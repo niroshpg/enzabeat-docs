@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Report it privately through GitHub: [open a private security advisory](https://github.com/niroshpg/enzabeat-docs/security/advisories/new) on this repository. Please do not open a public issue for a suspected vulnerability.
+Email **info@enzabeat.com** with "Security" in the subject line, or report it privately through GitHub by [opening a private security advisory](https://github.com/niroshpg/enzabeat-docs/security/advisories/new) on this repository. Please do not open a public issue for a suspected vulnerability.
 
 Include what you found, how to reproduce it, and what an attacker could do with it. You will get an acknowledgement, and a fix or an explanation, before anything is disclosed publicly.
 

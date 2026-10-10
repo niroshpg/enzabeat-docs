@@ -14,6 +14,7 @@ This repository is the public design: architecture, what crosses the network, ho
 - [What crosses the network](#what-crosses-the-network)
 - [Cursor modes](#cursor-modes)
 - [How every screen shows the same moment](#how-every-screen-shows-the-same-moment)
+- [One core, two native apps](#one-core-two-native-apps)
 - [Design decisions](#design-decisions)
 - [What this repository leaves out](#what-this-repository-leaves-out)
 - [Repository layout](#repository-layout)
@@ -74,6 +75,18 @@ Sending "we are at bar 24, beat 2" to every phone each time something changes wo
 Instead, every phone keeps its clock in step with the session host's clock. The host sends occasional reference points, each saying where in the music the band was at a given moment on the shared clock and how fast it is moving. Every phone then draws the cursor itself, every frame, from the shared clock. Network delay changes how quickly a phone hears about a change, not where its cursor is, so side-by-side screens agree to within a few milliseconds.
 
 The same approach means the host can move. A laptop, a leader phone, or a relay on the internet for players in different places all work the same way, because only small messages travel and none of them has to arrive at an exact moment.
+
+---
+
+## One core, two native apps
+
+<p align="center">
+  <img src="docs/diagrams/native-core.png" alt="A SwiftUI iPhone app and a Jetpack Compose Android app sit above a native boundary, crossed through Swift–C++ interop and JNI with values in and values out; below it one shared C++ core provides four parts used by both apps: realtime audio capture, the part tracker that follows each player's own part, the shared clock and session logic that also runs the session host, and score engraving with the cursor's position map." width="900">
+</p>
+
+<sub>Source: [`docs/diagrams/native-core.html`](docs/diagrams/native-core.html) · vector: [`native-core.svg`](docs/diagrams/native-core.svg)</sub>
+
+The interface is written natively for each platform, SwiftUI on iPhone and Jetpack Compose on Android, because audio sessions, background behaviour and screen timing are platform-specific. Everything that has to behave identically on both, listening to the player, keeping the shared clock, and laying out the score, is written once in a shared C++ core that both apps call. The same core runs the session host, so a laptop and a leader phone host the same way. Data crosses the boundary as plain values in each direction, and nothing in the core calls back up into either app.
 
 ---
 

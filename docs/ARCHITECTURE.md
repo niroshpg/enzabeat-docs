@@ -68,6 +68,10 @@ Because only small, timing-tolerant messages travel (ADR-002, ADR-003), the same
 
 ## ADR-008: Two native apps on one shared core (2026-10)
 
+<p align="center">
+  <img src="diagrams/native-core.png" alt="A SwiftUI iPhone app and a Jetpack Compose Android app sit above a native boundary, crossed through Swift–C++ interop and JNI with values in and values out; below it one shared C++ core provides four parts used by both apps: realtime audio capture, the part tracker that follows each player's own part, the shared clock and session logic that also runs the session host, and score engraving with the cursor's position map." width="900">
+</p>
+
 Listening and timing are where the two platforms must behave identically, and where performance matters. They are written once, in a shared core used by both apps and by the session host. The interface is native on each platform: SwiftUI on iOS and Jetpack Compose on Android, with the same rationale and conventions as [Scribatic](https://github.com/niroshpg/scribatic). Audio capture, audio-session handling and background behaviour are exactly what cross-platform UI toolkits abstract away.
 
 **Cost:** two interfaces to keep in step. The behaviour that has to match is small and specified here. How it looks may differ by platform.
